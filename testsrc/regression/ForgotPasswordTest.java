@@ -4,17 +4,18 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
+import pages.ForgotPassword;
 import pages.Login;
 
 import java.io.IOException;
 
 import static utility.ConfigReader.getUrl;
 
-public class LoginTest {
+public class ForgotPasswordTest {
 
 
     @Test
-    public void loginTest() throws IOException {
+    public void forgotPassTest() throws IOException {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
 
@@ -22,10 +23,20 @@ public class LoginTest {
 
         driver.get(getUrl());
 
-        Login login = new Login(driver);
+        // 2.click on forgot password button
 
-        login.setTxtUser("amolujagare@gmail.com");
-        login.setTxtPass("admin123");
-        login.clickBtnLogin();
+        Login login = new Login(driver);
+        login.clickForgotPass();
+
+        // 3. enter email
+        ForgotPassword forgotPassword = new ForgotPassword(driver);
+        forgotPassword.setTxtEmail("amol@gmail.com");
+
+        //4.click on reset
+        forgotPassword.clickResetBtn();
+
+        // in tests  (POM) we will very rarely use
+        //1. find elements / sendkeys / click like method
     }
+
 }

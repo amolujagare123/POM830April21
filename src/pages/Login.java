@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class Login {
 
-    //WebElement txtUser1 = driver.findElement(By.xpath(""));
+    // WebElement txtUser1 = driver.findElement(By.xpath(""));
 
     @FindBy (xpath = "//input[@id='email']")
     WebElement txtUser;
@@ -19,11 +19,19 @@ public class Login {
     @FindBy (xpath = "//button[@type='submit']")
     WebElement btnLogin;
 
+    @FindBy (xpath="//a[normalize-space()='I forgot my password']")
+    WebElement lnkForgotPass;
+
     public Login(WebDriver driver)
     {
         PageFactory.initElements(driver,this);
+          // this --> refers to current object
     }
 
+    public void clickForgotPass()
+    {
+        lnkForgotPass.click();
+    }
 
     public void setTxtUser(String user)
     {
