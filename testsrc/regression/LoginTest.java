@@ -8,7 +8,7 @@ import pages.Login;
 
 import java.io.IOException;
 
-import static utility.ConfigReader.getUrl;
+import static utility.ConfigReader.*;
 
 public class LoginTest {
 
@@ -24,8 +24,8 @@ public class LoginTest {
 
         Login login = new Login(driver);
 
-        login.setTxtUser("amolujagare@gmail.com");
-        login.setTxtPass("admin123");
+        login.setTxtUser(getUsername());
+        login.setTxtPass(getPassword());
         login.clickBtnLogin();
     }
 }

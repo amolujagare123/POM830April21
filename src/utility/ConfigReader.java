@@ -23,4 +23,12 @@ public class ConfigReader {
 
        return getLoadedPropertiesObject().getProperty("url");
     }
+
+    public static String getUsername() throws IOException {
+        return  getLoadedPropertiesObject().getProperty("username");
+    }
+
+    public static String getPassword() throws IOException {
+        return  getLoadedPropertiesObject().getProperty("password");
+    }
 }
