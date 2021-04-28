@@ -4,8 +4,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static utility.ConfigReader.*;
+import static utility.DataProviderUtil.testDataProvider;
 
 public class AddClientTestDataProvider {
 
@@ -43,7 +46,7 @@ public class AddClientTestDataProvider {
                               String add1,String add2,String city,String state,
                               String zip,String country,String gender,String birthdate,
                               String phone,String fax,String mobile,String email,
-                              String web,String vat ,String tax)
+                              String web,String vat ,String tax,String expected,String xpathActual)
     {
         Menu menu = new Menu(driver);
         menu.clickAddClient();
@@ -69,39 +72,25 @@ public class AddClientTestDataProvider {
         addClient.setClientweb(web);
         addClient.setClientvatid(vat);
         addClient.setClienttaxcode(tax);
-
         addClient.clickSave();
-    }
 
+
+        String actual ="";
+        try {
+            actual = driver.findElement(By.xpath(xpathActual)).getText();
+        }
+       catch (Exception e)
+       {
+
+       }
+
+        Assert.assertEquals(actual,expected,"wrong message");
+
+    }
 
     @DataProvider
     public  Object[][]  getData() throws IOException {
-        //1.  Read the file :
-        FileInputStream fis = new FileInputStream("Data/Invoiceplane.xlsx");
 
-        //2.  Convert file object into workbook object
-        XSSFWorkbook workbook = new  XSSFWorkbook(fis);
-
-        // 3. Identify the sheet name & create sheet object
-        XSSFSheet sheet = workbook.getSheet("addclient");
-
-        // 4. count the number of active rows in the sheet
-        int rowCount = sheet.getPhysicalNumberOfRows(); // 5
-        int colCount = sheet.getRow(0).getLastCellNum();
-
-        Object[][] data = new Object[rowCount-1][colCount];
-
-        // 5. traverse the array
-        for(int i=0;i<rowCount-1;i++)
-        {
-            XSSFRow row = sheet.getRow(i+1); // excel
-
-            for(int j=0;j<colCount;j++)
-               data[i][j] = row.getCell(j).toString().trim();
-
-        }
-
-
-        return  data;
+        return  testDataProvider("Data/Invoiceplane.xlsx","addclient");
     }
 }
